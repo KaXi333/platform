@@ -35,7 +35,7 @@
                 <span>店铺名</span>
                 <p>有一句话说出就是祸, 有一有一句话说出就是祸, 有一句话能点得着火有一句话说出就是祸, 有一句话能点得着火有一句话说出就是祸, 有一句话能点得着火句话能点得着火</p>
               </b-col> 
-              <b-col cols="6" class="">
+              <b-col cols="6" class="shop-box">
                 <b-img class="header-img" :src = "require('../common/images/store.png')" fluid />
               </b-col> 
             </b-row>
@@ -111,8 +111,8 @@
       </b-container>  
     </div>
      <div>
-      <b-container style="padding-right:0;padding-bottom:20px;border-bottom:1px solid #f2f2f2;">
-      <b-navbar toggleable="md" type="dark" variant="light" style="padding:0 0 0 15px">
+      <b-container class="classBigbox">
+      <b-navbar toggleable="md" type="dark" variant="light" class="class-box">
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
           <span class="classBtn">分类:</span>
           <b-collapse is-nav id="nav_collapse">
@@ -134,46 +134,46 @@
             </b-navbar-nav> -->
             <b-container>
               <b-row>
-                <b-col cols="3" sm="1" class="classItem-box classItem-active">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box classItem-active">
                   <span>不限类型</span>
                 </b-col> 
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>服饰鞋包</span>
                 </b-col>
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>家具用品</span>
                 </b-col> 
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>家装家饰</span>
                 </b-col> 
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>美容护理</span>
                 </b-col>
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>母婴用品</span>
                 </b-col> 
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>3C数码</span>
                 </b-col>
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>运动/户外</span>
                 </b-col> 
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>食品/保健</span>
                 </b-col>
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>玩乐/收藏</span>
                 </b-col> 
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>游戏/话费</span>
                 </b-col> 
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>汽车配件</span>
                 </b-col>
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>书籍音像</span>
                 </b-col>
-                <b-col cols="3" sm="1" class="classItem-box">
+                <b-col cols="3" sm="2" lg="1" class="classItem-box">
                   <span>珠宝/首饰</span>
                 </b-col> 
               </b-row>
@@ -191,25 +191,33 @@
             </b-col> 
           </b-row>
           <b-row>
-            <b-col cols="4" sm="3" class="storeName">
-              <b-img :src = "require('../common/images/store.png')" fluid />
+            <b-col cols="4" sm="3" class="storeName" @click="toshopDetailBtn">
+              <div class="storeName-bc">
+                <b-img :src = "require('../common/images/store.png')" fluid />
+              </div>
               <p>店铺名</p>
             </b-col>
             <b-col cols="4" sm="3" class="storeName">
-              <b-img :src = "require('../common/images/store.png')" fluid />
+              <div class="storeName-bc">
+                <b-img :src = "require('../common/images/store.png')" fluid />
+              </div>
               <p>店铺名</p>
             </b-col>
             <b-col cols="4" sm="3" class="storeName">
-              <b-img :src = "require('../common/images/store.png')" fluid />
+              <div class="storeName-bc">
+                <b-img :src = "require('../common/images/store.png')" fluid />
+              </div>
               <p>店铺名</p>
             </b-col>
             <b-col cols="4" sm="3" class="storeName">
-              <b-img :src = "require('../common/images/store.png')" fluid />
+              <div class="storeName-bc">
+                <b-img :src = "require('../common/images/store.png')" fluid />
+              </div>
               <p>店铺名</p>
             </b-col>
           </b-row>
           <b-row align-h = "center">
-            <b-col cols="4" sm="2" class="">
+            <b-col cols="3" sm="2" class="">
               <div class="checkMore">查看更多</div>
             </b-col> 
           </b-row>
@@ -219,32 +227,65 @@
       <b-container>
         <b-row>
           <b-col cols="4"sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
           </b-col>
           <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </b-col>
-           <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </b-col>
-           <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
           </b-col>
           <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </b-col>
-           <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </b-col>
-           <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
           </b-col>
           <b-col cols="4" sm="2" class="showImg storeName">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </b-col> 
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
+          <b-col cols="4" sm="2" class="showImg storeName">
+            <div class="storeName-bc">
+              <b-img :src = "require('../common/images/store.png')" fluid />
+            </div>
+          </b-col>
         </b-row>
       </b-container>  
     </div>
@@ -265,6 +306,9 @@ export default {
     },
     onSlideEnd (slide) {
       this.sliding = false
+    },
+    toshopDetailBtn(){
+      this.$router.push('/shopDetail');
     }
   }
 }
@@ -275,25 +319,6 @@ export default {
     width: 8px;
     height:8px;
     border-radius: 5px;
-  }
-  .recommend p{
-    width: 4px;
-    height:20px;
-    background-color: #d33a31;
-    line-height: 100%;
-    margin:auto 0;
-    float: left;
-    margin-right: 10px;
-    margin-top: 2px;
-  }
-  .recommend{
-    margin-top:30px;
-    margin-bottom: 15px;
-  }
-  .recommend span{
-    float: left;
-    font-size: 16px;
-    color:#1b1b1b;
   }
   .shop-bgbox{
     padding-right: 0;
@@ -335,11 +360,15 @@ export default {
   .showImg{
     padding-right: 0;
   }
-
-
+  
+  .classBigbox{
+    padding-right:0;
+    padding-bottom:20px;
+    border-bottom:1px solid #f2f2f2;
+  }
   .classItem-box{
     color: #1b1b1b;
-    font-size:14px; 
+    font-size:12px; 
     padding:0 8px;
     height: 25px;
     margin-top: 10px;
@@ -367,17 +396,6 @@ export default {
     padding-right:8px;
   }
 
-  .storeName{
-    padding-right: 0;
-    margin-bottom: 15px;
-  }
-  .storeName p{
-    font-size: 20px;
-    color: #1b1b1b;
-    padding: 8px 0;
-    margin:0;
-    background-color: #f9f9f9;
-  }
   .checkMore{
     border:1px solid #d33a31;
     border-radius: 4px;
@@ -388,4 +406,52 @@ export default {
     margin-top: 15px;
     margin-bottom: 40px;
   }
+  /* 手机移动端 */
+@media (max-width: 576px) {
+  .shop-bgbox{
+    margin-bottom: 8px;
+  }
+  .shop-bc{
+    padding: 6px 0;
+    min-height: 107px;
+  }
+  .shop-box span{
+    font-size: 14px;
+  }
+  .shop-box p{
+    font-size: 12px;
+    margin-top: 3px;
+  }
+  .showImg-box{
+    margin-top:10px; 
+    margin-bottom:17px;
+  }
+  .checkMore{
+    border-radius: 4px;
+    height:20px;
+    line-height: 18px;
+    font-size: 10px;
+    margin-top: 5px;
+    margin-bottom: 13px;
+  }
+  .classBigbox{
+    padding:0 5px;
+    padding-bottom:10px;
+  }
+  .class-box{
+    background-color: #17a2b8!important;
+  }
+  .classBtn{
+    color:#fff;
+  }
+  .classItem-box{
+    color:#fff;
+    font-size: 10px;
+    height:20px;
+    margin-top: 5px;
+  }
+  .classItem-box span{
+    line-height: 20px;
+  }
+}
 </style>

@@ -10,14 +10,14 @@
                 <b-form-input class="input-item" required placeholder="手机号码" v-model="user.email">
                 </b-form-input>
               </div>
-              <div class="form-group">
-                <b-row style="padding-right:0;margin-right:0">
-                  <b-col cols="9" class="">
+              <div class="form-group form-group1" style="margin-bottom:0;">
+                <b-row class="code-bigbox">
+                  <b-col cols="8" class="" >
                     <b-form-input class="input-item" required placeholder="验证码">
                     </b-form-input>
                   </b-col>
-                  <b-col cols="3" class="phoneCode">
-                      获取验证码
+                  <b-col cols="4" class="phoneCode">
+                    <p>获取验证码</p>
                   </b-col> 
                 </b-row>
               </div>
@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import '../../common/stylus/loginRes.styl'
 import api from '../../api/index'
 import {ShowDeviseFn} from '../../common/util/util'  
 

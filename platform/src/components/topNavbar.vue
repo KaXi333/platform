@@ -2,11 +2,11 @@
   <div >
     <b-container class="bv-example-row">
       <b-row align-v = "center" class="header-box">
-          <b-col cols="9" sm="4" class="text-left">
-            <b-img class="header-img" :src = "require('../common/images/logo.png')" fluid /> 
+          <b-col cols="7" sm="4" class="text-center">
+            <b-img @click="toHmoe" class="header-img" :src = "require('../common/images/logo.png')" fluid /> 
           </b-col>
           <b-col v-if="!isShowSearch" cols="0" sm="6">
-            <i class="iconfont icon-sousuo"></i>
+            <i @click="searchBtn" class="iconfont icon-sousuo"></i>
             <b-form-input placeholder="商品" ></b-form-input>
           </b-col>
           <!-- <b-col v-if="!isShowUser" cols="6" sm="2">
@@ -15,16 +15,17 @@
               <b-dropdown-item>退出</b-dropdown-item>
             </b-dropdown>
           </b-col> -->
-          <b-col class="sigInUp text-right" v-if="!isShowUser" cols="3" sm="2">
+          <b-col class="sigInUp text-right" v-if="!isShowUser" cols="5" sm="2">
             <a >钱包</a>
+            <a @click="topersonCenbtn">个人中心</a>
             <a style="color:#d33a31">退出</a>  
           </b-col>
-          <b-col class="sigInUp" v-if="isShowUser" cols="3" sm="2">
+          <b-col class="sigInUp" v-if="isShowUser" cols="5" sm="2">
             <a @click="toLogin">登录</a>
             <a @click="toRegister" style="color:#d33a31">注册</a>  
           </b-col>
           <b-col v-if="isShowSearch" cols="12" sm="6" style="margin-top:10px;">
-            <i class="iconfont icon-sousuo"></i>
+            <i @click="searchBtn" class="iconfont icon-sousuo"></i>
             <b-form-input placeholder="商品" ></b-form-input>
           </b-col>
       </b-row>
@@ -39,7 +40,7 @@ export default {
     return {
       screenWidth: document.documentElement.clientWidth,
       isShowSearch:false,
-      isShowUser:true
+      isShowUser:false
     }
   },
    mounted () {
@@ -65,7 +66,16 @@ export default {
       this.$router.push('/sign_in');
     },
     toRegister(){
-       this.$router.push('/sign_up');
+      this.$router.push('/sign_up');
+    },
+    toHmoe(){
+      this.$router.push('/');
+    },
+    topersonCenbtn(){
+      this.$router.push('/personalSeller');
+    },
+    searchBtn(){
+      this.$router.push('/search');
     }
   }
 }
@@ -78,7 +88,7 @@ export default {
  }
  .header-box{
   margin:0;
-  padding: 8px 0;
+  padding: 15px 0;
  }
  .form-control{
    border-radius:2rem;  
@@ -100,4 +110,16 @@ export default {
   font-size: 14px;
   color:#1a1a1a;
  }
+ /* 手机移动端 */
+@media (max-width: 576px) {
+  .header-box{
+    padding: 6px 0;
+  }
+}
+@media (max-width: 340px) {
+  .sigInUp a{
+    margin-right: 3px;
+    font-size: 12px;
+  }
+}
 </style>

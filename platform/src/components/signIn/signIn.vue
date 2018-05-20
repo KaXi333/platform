@@ -16,7 +16,7 @@
                   </b-form-input>
                 </div>
                 <div class="form-group">
-                  <b-row>
+                  <b-row class="code-bigbox">
                     <b-col cols="8" class="">
                       <b-form-input class="input-item" required placeholder="验证码">
                       </b-form-input>
@@ -41,13 +41,13 @@
                   </b-form-input>
                 </div>
                 <div class="form-group">
-                  <b-row style="padding-right:0;margin-right:0">
-                    <b-col cols="9" class="">
+                  <b-row class="code-bigbox">
+                    <b-col cols="8" class="">
                       <b-form-input class="input-item" required placeholder="验证码">
                       </b-form-input>
                     </b-col>
-                    <b-col cols="3" class="phoneCode">
-                        获取验证码
+                    <b-col cols="4" class="phoneCode">
+                      <p>获取验证码</p>
                     </b-col> 
                   </b-row>
                 </div>
@@ -55,9 +55,9 @@
               </b-form>
             </div>
           </div>
-          <div class="fastLogin" @click="chooseLginBtn">{{chooseLoginNmae}}</div>
+          <div class="fastLogin" @click="chooseLginBtn">{{chooseLogin}}</div>
           <div class="links-area">
-            <span class="new-password-link"><a href="#">忘记密码</a></span>
+            <span class="new-password-link" @click="toEdPassword"><a>忘记密码</a></span>
             <hr>
             <span class="new-registration-link"> 还没有帐号？</span><router-link to="/sign_up">注册</router-link>
           </div>
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import '../../common/stylus/loginRes.styl'
 import api from '../../api/index'
 import identify from '../base/identify'
 
@@ -78,7 +77,7 @@ export default {
   },
   data () {
     return {
-      isShowLoginWay:true,
+      isShowLoginWay:false,
       chooseLoginNmae:"快捷登录",
       identifyCodes:"1234567890",
       identifyCode:'',
@@ -97,6 +96,16 @@ export default {
     this.identifyCode="",
     this.makeCode(this.identifyCodes,4)
   },
+  computed: {
+    chooseLogin: function () {
+      if(this.isShowLoginWay){
+        this.chooseLoginNmae="其他登录方式>" 
+      }else{
+        this.chooseLoginNmae="快捷登录>"
+      }
+      return this.chooseLoginNmae
+    }
+  },
   methods: {
     randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
@@ -114,13 +123,10 @@ export default {
       console.log(this.identifyCode)
     },
     chooseLginBtn(){
-      this.isShowLoginWay=!this.isShowLoginWay
-      if(this.isShowLoginWay){
-        this.chooseLoginNmae="其他登录方式>" 
-      }else{
-        this.chooseLoginNmae="快捷登录>"
-      }
-      
+      this.isShowLoginWay=!this.isShowLoginWay  
+    },
+    toEdPassword(){
+      this.$router.push('/editPassword');
     },
     onSignIn (evt) {
       evt.preventDefault()
@@ -148,7 +154,6 @@ export default {
               height 50px
               margin-bottom 30px
           .signBtn
-            height 50px
             box-shadow 0 2px 4px 0 rgba(69,146,69,0.5)
             border-radius 4px
             background-color #43cb83
@@ -163,7 +168,7 @@ export default {
         text-align center
         .new-password-link
           display block
-          margin 100px auto 10px auto
+          margin 50px auto 10px auto
           a
             color #9B9B9B
           a:hover
