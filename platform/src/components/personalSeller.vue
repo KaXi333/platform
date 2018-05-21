@@ -1,5 +1,5 @@
 <template>
-  <div class="signUp-wrapper">
+  <div class="signUp-wrapper">       
     <b-container class="sign-box personalblock">
       <b-row align-h = "center" class="personal-box">
         <b-col cols="8" class="text-left personalcenter-box">
@@ -46,7 +46,10 @@
                 <input class="addImgBtn" @change='add_img'  type="file" accept="image/png,image/jpg,image/gif">
                 <p>点击跟换</p>
               </div>
-              <div v-if="!isShowCropper" class="cropper-box">
+            </div>
+          </div>
+          <div v-if="!isShowCropper" class="cropperdiglog">
+            <div class="cropperContent">
               <vueCropper
                 ref="cropper"
                 :img="imgs"
@@ -60,9 +63,12 @@
                 :fixed="example2.fixed"
                 :fixedNumber="example2.fixedNumber"
               ></vueCropper>
-              </div>
+              <h3 class="cropperSureCss">
+                <b-button variant = "secondary">取消</b-button>
+                <b-button @click="cropperSureBtn" variant = "primary">确定</b-button>
+              </h3>
             </div>
-          </div>
+          </div>     
         </b-col> 
       </b-row>
       <b-row align-h = "center" class="businessImform-box">
@@ -72,7 +78,7 @@
               <h3>商户信息</h3>
             </b-col>
             <b-col cols="3" sm="2" class="text-right">
-              <p @click="clipImgBtn" class="personal-saveBtn">保存</p>
+              <p class="personal-saveBtn">保存</p>
             </b-col>
           </b-row>
           <div class="personalimform">
@@ -311,7 +317,7 @@ export default {
           that.isShowCropper=!that.isShowCropper
       }         
     },
-    clipImgBtn(){
+    cropperSureBtn(){
       this.$refs.cropper.getCropData((data) => {
         this.imgs = data
         this.isShowCropper=!this.isShowCropper
@@ -415,6 +421,33 @@ export default {
   .cropper-box{
     width: 100%;
     height:100%;
+  }
+  .cropperdiglog{
+    position: fixed;
+    top: 0;
+    left:0;
+    z-index: 1000;
+    width: 100%;height:100%;
+  }
+  .cropperContent{
+    margin: 100px auto;
+    width: 60%;
+    height:60%;
+    z-index: 10000;
+    position: relative;
+  }
+  .cropperSureCss{
+    position: absolute;
+    bottom:0;
+    right:0;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 0;
+    text-align: right;
+    padding:10px;
+  }
+  .cropperSureCss button{
+    margin-right: 15px;
   }
   /* 手机移动端 */
 @media (max-width: 576px) {
