@@ -9,6 +9,9 @@ import personalSeller from '@/components/personalSeller'
 import personal from '@/components/personal'
 import shopEdit from '@/components/shopEdit'
 import search from '@/components/search'
+import changePhone from '@/components/changePhone'
+import changeEmail from '@/components/changeEmail'
+import changePassword from '@/components/changePassword'
 
 Vue.use(Router)
 
@@ -58,6 +61,21 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: search
+    },
+    {
+      path: '/changePhone',
+      name: 'changePhone',
+      component: changePhone
+    },
+    {
+      path: '/changeEmail',
+      name: 'changeEmail',
+      component: changeEmail
+    },
+    {
+      path: '/changePassword',
+      name: 'changePassword',
+      component: changePassword
     }
   ]
 })

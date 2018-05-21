@@ -11,7 +11,7 @@
                 <b-form-input class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
-                <p class="changecont">修改</p>
+                <p @click="changePhoneBtn" class="changecont">修改</p>
               </b-col>
             </b-row>
           </div>
@@ -22,7 +22,7 @@
                 <b-form-input class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
-                <p class="changecont">修改</p>
+                <p @click="changeEmailBtn" class="changecont">修改</p>
               </b-col>
             </b-row>
           </div>
@@ -33,13 +33,16 @@
                 <b-form-input class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
-                <p class="changecont">修改</p>
+                <p @click="changePasswordBtn" class="changecont">修改</p>
               </b-col>
             </b-row>
           </div>
         </b-col>
         <b-col cols="4" class="" >
-          <b-img class="personalImg" :src = "require('../common/images/store.png')" fluid />
+          <div class="personalImg">
+            <b-img   class="" :src = "require('../common/images/store.png')" fluid />
+            <div class="addImg" ><p>点击跟换</p></div>
+          </div>
         </b-col> 
       </b-row>
       
@@ -56,6 +59,33 @@ export default {
     }
   },
   methods: {
+     changePhoneBtn(){
+      this.$router.push({
+        path: 'changePhone',   
+        name: 'changePhone',  
+        params: {   
+            pathUrl: 'personal',  
+        }  
+      });
+    },
+    changeEmailBtn(){
+      this.$router.push({
+        path: 'changeEmail',   
+        name: 'changeEmail',  
+        params: {   
+            pathUrl: 'personal',  
+        }  
+      });
+    },
+    changePasswordBtn(){
+      this.$router.push({
+        path: 'changePassword',   
+        name: 'changePassword',  
+        params: {   
+            pathUrl: 'personal',  
+        }  
+      });
+    }
   }
 }
 </script>

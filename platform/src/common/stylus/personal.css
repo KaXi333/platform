@@ -28,6 +28,23 @@
     top:50%;
     transform:translateY(-50%);
   }
+  .addImg{
+    background:rgb(0,0,0,0.4);
+    z-index: 1000;
+    height:100%;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    text-align: center;
+  }
+  .addImg p{
+    color:#fff;
+    font-size: 16px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
   .input-item{
       height:40px;
   }
@@ -56,4 +73,8 @@
     font-size: 14px;
     line-height:46px; 
   } 
+
+  .addImg p{
+    font-size: 12px;
+  }
 }

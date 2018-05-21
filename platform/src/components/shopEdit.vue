@@ -5,7 +5,10 @@
         <b-col cols="12" class="text-center personalcenter-box editPic">
           <b-row align-h = "center" class="phonePersonal-text">
             <b-col cols="6" sm="4">
-              <b-img :src = "require('../common/images/store.png')" fluid />
+              <div class="personalImg">
+                <b-img   class="" :src = "require('../common/images/store.png')" fluid />
+                <div class="addImg" ><p>点击跟换</p></div>
+              </div>
             </b-col>
           </b-row>
         </b-col>
@@ -39,15 +42,15 @@
       <b-row align-h = "center" class="editShop-box">
         <b-col cols="12" class="text-left personalcenter-box">
           <div class="personalimform">
-            <h4>店铺类型</h4>
+            <h4 class="classShopTit">店铺类型</h4>
           </div>
         </b-col>
         <b-col cols="12" class="text-left personalcenter-box">
           <b-navbar toggleable="md" type="dark" variant="light" class="class-box">
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-              <!-- <span class="classBtn">店铺类型</span> -->
+              <span class="classBtn">店铺类型</span>
               <b-collapse is-nav id="nav_collapse">
-                <b-container>
+                <b-container style="margin:0">
                   <b-row class="">
                     <b-col cols="3" sm="2" lg="1" class="classItem-box classItem-active">
                       <span>服饰鞋包</span>
@@ -147,13 +150,14 @@ export default {
     background-color: #fff !important;
     padding-top: 15px;
     padding-left: 0;
+    padding-bottom: 0;
   }
   .classItem-box{
     color: #1b1b1b;
     font-size:14px; 
     padding:0 8px;
     height: 40px;
-    margin-right:30px;
+    margin-right:25px;
     line-height: 40px;
     text-align:center;
   }
@@ -175,9 +179,8 @@ export default {
     color:#1b1b1b;
   }
   .classBtn{
-    color: #1b1b1b;
-    font-size:14px; 
-    padding-right:8px;
+    font-size:0px; 
+    opacity:0;
   }
   /* 手机移动端 */
 @media (max-width: 576px) {
@@ -207,6 +210,15 @@ export default {
   .class-box{
     background-color: #17a2b8 !important;
     padding-top: 0px;
+  }
+  .classBtn{
+    color:#fff;
+    opacity:1;
+    font-size:12px;
+  }
+  .classShopTit{
+    font-size:0px; 
+    opacity:0;
   }
 }
 </style>

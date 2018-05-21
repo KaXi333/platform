@@ -11,7 +11,7 @@
                 <b-form-input class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
-                <p class="changecont">修改</p>
+                <p @click="changePhoneBtn" class="changecont">修改</p>
               </b-col>
             </b-row>
           </div>
@@ -22,7 +22,7 @@
                 <b-form-input class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
-                <p class="changecont">修改</p>
+                <p @click="changeEmailBtn" class="changecont">修改</p>
               </b-col>
             </b-row>
           </div>
@@ -33,13 +33,36 @@
                 <b-form-input class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
-                <p class="changecont">修改</p>
+                <p @click="changePasswordBtn" class="changecont">修改</p>
               </b-col>
             </b-row>
           </div>
         </b-col>
         <b-col cols="4" class="" >
-          <b-img class="personalImg" :src = "require('../common/images/store.png')" fluid />
+          <div class="personalImg">
+            <b-img   class="" :src = "imgs" fluid />
+            <div class="addImg" >
+              <div v-if="isShowCropper" class="cropper-box">
+                <input class="addImgBtn" @change='add_img'  type="file" accept="image/png,image/jpg,image/gif">
+                <p>点击跟换</p>
+              </div>
+              <div v-if="!isShowCropper" class="cropper-box">
+              <vueCropper
+                ref="cropper"
+                :img="imgs"
+                :outputSize="example2.size"
+                :outputType="example2.outputType"
+                :info="example2.info"
+                :canScale="example2.canScale"
+                :autoCrop="example2.autoCrop"
+                :autoCropWidth="example2.autoCropWidth"
+                :autoCropHeight="example2.autoCropHeight"
+                :fixed="example2.fixed"
+                :fixedNumber="example2.fixedNumber"
+              ></vueCropper>
+              </div>
+            </div>
+          </div>
         </b-col> 
       </b-row>
       <b-row align-h = "center" class="businessImform-box">
@@ -49,7 +72,7 @@
               <h3>商户信息</h3>
             </b-col>
             <b-col cols="3" sm="2" class="text-right">
-              <p class="personal-saveBtn">保存</p>
+              <p @click="clipImgBtn" class="personal-saveBtn">保存</p>
             </b-col>
           </b-row>
           <div class="personalimform">
@@ -102,7 +125,7 @@
                     <h4>微信二维码</h4>
                   </b-col>
                   <b-col cols="12">
-                    <b-img class="personalImg" :src = "require('../common/images/store.png')" fluid />
+                    <b-img class="personalImg" :src = "require('../common/images/upload.png')" fluid />
                   </b-col>
                 </b-row>
               </b-col>
@@ -112,7 +135,7 @@
                     <h4>支付宝二维码</h4>
                   </b-col>
                    <b-col cols="12">
-                    <b-img class="personalImg" :src = "require('../common/images/store.png')" fluid />
+                    <b-img class="personalImg" :src = "require('../common/images/upload.png')" fluid />
                   </b-col>  
                 </b-row>
               </b-col>
@@ -222,6 +245,11 @@
             </b-col>  
           </b-row>
         </b-col>
+        <b-col cols="4" sm="3" class="storeName text-center">
+          <div style="background:#f9f9f9;height:100%;">
+            <h4 class="addShopCss"><span>添加店铺</span></h4>
+          </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -229,15 +257,65 @@
 
 <script>
 import '../common/stylus/personal.css'
+import vueCropper from 'vue-cropper'
 export default {
+  components: {
+    vueCropper
+  },
   data () {
     return {
-      text:''
+      text:'',
+      file:null,
+      isShowCropper:true,
+      imgs:require('../common/images/store.png'),
+      example2: {
+        img: this.imgs,
+        info: true,
+        size: 1,
+        // outputType: 'jpeg',
+        canScale: false,
+        autoCrop: true,
+        // 只有自动截图开启 宽度高度才生效
+        autoCropWidth: 300,
+        autoCropHeight: 300,
+        // 开启宽度和高度比例
+        fixed: true,
+        fixedNumber: [1, 1]
+      }
     }
   },
   methods: {
+    changePhoneBtn(){
+      this.$router.push('/changePhone');
+    },
+    changeEmailBtn(){
+      this.$router.push('/changeEmail');
+    },
+    changePasswordBtn(){
+      this.$router.push('/changePassword');
+    },
     toShopEdit(){
       this.$router.push('/shopEdit');
+    },
+    add_img(event){
+      var img1=event.target.files[0];
+      if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(event.target.value)) {
+         alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
+         return false
+       }
+      var reader =new FileReader();
+      reader.readAsDataURL(img1);
+      var that=this;
+      reader.onloadend=function(){
+          that.imgs=reader.result
+          that.isShowCropper=!that.isShowCropper
+      }         
+    },
+    clipImgBtn(){
+      this.$refs.cropper.getCropData((data) => {
+        this.imgs = data
+        this.isShowCropper=!this.isShowCropper
+      }) 
     }
   }
 }
@@ -312,6 +390,32 @@ export default {
     height:30px;
     line-height: 30px;
   }
+  .addShopCss{
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
+    width: 80%;
+    height:80px;
+    line-height: 80px;
+    color:#d33a31;
+    border:1px solid #d33a31;
+    border-radius: 4px;
+    margin:0 auto;
+    font-size: 16px;
+  }
+  .addImgBtn{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    opacity: 0;
+  }
+  .cropper-box{
+    width: 100%;
+    height:100%;
+  }
   /* 手机移动端 */
 @media (max-width: 576px) {
   .businessImform-box{
@@ -367,6 +471,11 @@ export default {
     font-size: 14px;
     height:20px;
     line-height: 20px;
+  }
+   .addShopCss{
+    height:40px;
+    line-height: 40px;
+    font-size: 12px;
   }
 }
 </style>
