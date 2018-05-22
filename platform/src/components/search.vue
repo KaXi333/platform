@@ -138,6 +138,7 @@
             </b-row>
           </b-col>
         </b-row>
+        <b-pagination size="lg" :total-rows="50" v-model = "currentPage" :per-page = "10" prev-text="上一页" next-text="下一页" first-text="首页" last-text="尾页"></b-pagination>
       </b-container>
     </div>
   </div>
@@ -147,7 +148,7 @@
 export default {
   data () {
     return {
-      
+      currentPage:1
     }
   },
   methods: {
@@ -236,7 +237,7 @@ export default {
   }
 
   /* 手机移动端 */
-@media (max-width: 576px) {
+@media (max-width: 767px) {
   .shop-bgbox{
     margin-bottom: 8px;
   }

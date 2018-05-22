@@ -8,17 +8,17 @@
             <div class="input-area">
               <b-form @submit="onSignIn">
                 <div class="form-group">
-                  <b-form-input class="input-item" required placeholder="手机号码" v-model="user.email">
+                  <b-form-input class="input-item" required placeholder="手机号码" v-model="user.phone">
                   </b-form-input>
                 </div>
                 <div class="form-group">
-                  <b-form-input class="input-item" required placeholder="密码" v-model="user.password">
+                  <b-form-input class="input-item" required type="password" placeholder="密码" v-model="user.password">
                   </b-form-input>
                 </div>
                 <div class="form-group">
                   <b-row class="code-bigbox">
                     <b-col cols="8" class="">
-                      <b-form-input class="input-item" required placeholder="验证码">
+                      <b-form-input class="input-item" required placeholder="验证码" v-model="user.code">
                       </b-form-input>
                     </b-col>
                     <b-col cols="4" class="code-box">
@@ -37,13 +37,13 @@
             <div class="input-area">
               <b-form @submit="onSignIn">
                 <div class="form-group">
-                  <b-form-input class="input-item" required placeholder="手机号码" v-model="user.email">
+                  <b-form-input class="input-item" required placeholder="手机号码" v-model="user.phone">
                   </b-form-input>
                 </div>
                 <div class="form-group">
                   <b-row class="code-bigbox">
                     <b-col cols="8" class="">
-                      <b-form-input class="input-item" required placeholder="验证码">
+                      <b-form-input class="input-item" required placeholder="验证码" v-model="user.code">
                       </b-form-input>
                     </b-col>
                     <b-col cols="4" class="phoneCode">
@@ -55,7 +55,7 @@
               </b-form>
             </div>
           </div>
-          <div class="fastLogin" @click="chooseLginBtn">{{chooseLogin}}</div>
+          <!-- <div class="fastLogin" @click="chooseLginBtn">{{chooseLogin}}</div> -->
           <div class="links-area">
             <span class="new-password-link" @click="toEdPassword"><a>忘记密码</a></span>
             <hr>
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-import api from '../../api/index'
 import identify from '../base/identify'
 
 export default {
@@ -86,9 +85,9 @@ export default {
       contentHeight:50,
 
       user: {
-        email: '',
+        phone: '',
         password: '',
-        passwordConfirm: ''
+        code:''
       }
     }
   },
@@ -107,6 +106,7 @@ export default {
     }
   },
   methods: {
+    // 验证码
     randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min)
     },
@@ -122,24 +122,42 @@ export default {
       }
       console.log(this.identifyCode)
     },
+    // 选择登录方式
     chooseLginBtn(){
       this.isShowLoginWay=!this.isShowLoginWay  
     },
+    // 忘记密码
     toEdPassword(){
       this.$router.push('/editPassword');
     },
+    // 登录
     onSignIn (evt) {
       evt.preventDefault()
-      api.signUp(this.user).then((res) => {
-        if (res.data.code === 200) {
-          window.location = '/'
-        } else {
-          alert('请输入正确的邮箱和密码')
-        }
-      })
-        .catch(function (error) {
-          console.log(error)
+      console.log(this.user.code)
+      if(this.user.code!=this.identifyCode){
+        alert('验证码错误')
+      }else{
+        this.$axios({
+           method: 'post',
+           url: '/oauth',
+           data: {
+              mobile: this.user.phone,
+              password: this.user.password
+           }
+        }).then(res=>{
+        if(res.data.code === 0){
+          console.log(res)
+          this.$router.push('/');
+          this.$store.commit('changeLogin','1');
+          localStorage.setItem("token",res.data.data.token);
+        }else{
+          alert('请输入正确的手机和密码')
+        } 
         })
+        .catch(err=>{
+         console.log(err)
+        })
+      }
     }
   }
 }

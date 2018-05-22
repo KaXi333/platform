@@ -7,10 +7,10 @@
           <div class="input-area">
             <b-form @submit="onSignUp">
               <div class="form-group">
-                <b-form-input class="input-item" required placeholder="手机号码" v-model="user.email">
+                <b-form-input class="input-item" required placeholder="手机号码" v-model="user.phone">
                 </b-form-input>
               </div>
-              <div class="form-group form-group1" style="margin-bottom:0;">
+              <!-- <div class="form-group form-group1" style="margin-bottom:0;">
                 <b-row class="code-bigbox">
                   <b-col cols="8" class="" >
                     <b-form-input class="input-item" required placeholder="验证码">
@@ -20,16 +20,16 @@
                     <p>获取验证码</p>
                   </b-col> 
                 </b-row>
-              </div>
+              </div> -->
               <div class="form-group">
-                <b-form-input class="input-item" required placeholder="密码" v-model="user.password">
+                <b-form-input class="input-item" required type="password" placeholder="密码" v-model="user.password">
                 </b-form-input>
               </div>
               <div class="form-group">
-                <b-form-input class="input-item" required placeholder="确认密码" v-model="user.passwordConfirm">
+                <b-form-input class="input-item" required type="password" placeholder="确认密码" v-model="user.passwordConfirm">
                 </b-form-input>
               </div>
-              <input type="submit" name="commit" value="注 册" class="signBtn" data-disable-with="注 册">
+              <input  type="submit" name="commit" value="注 册" class="signBtn" data-disable-with="注 册">
             </b-form>
           </div>
           <div class="links-area">
@@ -44,57 +44,67 @@
 </template>
 
 <script>
-import api from '../../api/index'
-import {ShowDeviseFn} from '../../common/util/util'  
+// import api from '../../api/index'
+// import {ShowDeviseFn} from '../../common/util/util'  
 
 export default {
   data () {
     return {
-      screenWidth: document.documentElement.clientWidth,
-      isShowDevise:false,
       user: {
-        email: '',
+        phone: '',
         password: '',
         passwordConfirm: ''
       }
     }
   },
-  mounted () {
-    //获取浏览器窗口大小
-    window.onresize = () => {
-        return (() => {
-            window.screenWidth = document.documentElement.clientWidth
-            this.screenWidth = window.screenWidth
-        })()
-    }
-    //控制isShowDevise显示隐藏
-    this.isShowDevise=ShowDeviseFn(this.screenWidth,this.isShowDevise)
-  },
-  watch: {
-    //监听浏览器窗口大小
-    screenWidth (val) {
-        this.screenWidth = val
-        this.isShowDevise=ShowDeviseFn(this.screenWidth,this.isShowDevise)
-    }
-  },
   methods: {
-    onSignUp (evt) {
-      evt.preventDefault()
-      api.signUp(this.user).then((res) => {
-        if (res.data.code === 200) {
-          window.location = '/'
-        } else {
-          alert('请输入正确的邮箱和密码')
-        }
-      })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }
+      onSignUp(evt){
+         evt.preventDefault()
+         var phoneReg=11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+         var passReg=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
+         if(!phoneReg.test(this.user.phone)){
+            alert("手机格式不正确");
+         }else if(!passReg.test(this.user.password)){
+            alert("密码由6-16位数字字母组合");
+         }else if(this.user.password!=this.user.passwordConfirm){
+            alert("两次输入密码不一致");
+         }else{
+            this.$axios({
+                 method: 'post',
+                 url: '/register',
+                 data: {
+                     mobile: this.user.phone,
+                     password: this.user.password,
+                     password_confirmation:this.user.passwordConfirm
+                 }
+             }).then(res=>{
+               console.log(res)
+               this.$router.push('/sign_in');
+               // localStorage.setItem('ms_username',this.ruleForm.username);
+               // localStorage.setItem("token",res.data.data.token);
+             })
+             .catch(err=>{
+               console.log(err)
+             })
+         }
+      }
+    // onSignUp (evt) {
+    //   evt.preventDefault()
+    //   api.signUp(this.user).then((res) => {
+    //     if (res.data.code === 200) {
+    //       window.location = '/'
+    //     } else {
+    //       alert('请输入正确的邮箱和密码')
+    //     }
+    //   })
+    //     .catch(function (error) {
+    //       console.log(error)
+    //     })
+    // }
   }
 }
 </script>
 
-<style scoped lang="stylus" rel="stylesheet/stylus">
+<style scoped>
   
 </style>

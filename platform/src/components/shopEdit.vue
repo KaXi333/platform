@@ -5,10 +5,7 @@
         <b-col cols="12" class="text-center personalcenter-box editPic">
           <b-row align-h = "center" class="phonePersonal-text">
             <b-col cols="6" sm="4">
-              <div class="personalImg">
-                <b-img   class="" :src = "require('../common/images/store.png')" fluid />
-                <div class="addImg" ><p>点击跟换</p></div>
-              </div>
+              <cropper></cropper>
             </b-col>
           </b-row>
         </b-col>
@@ -52,7 +49,7 @@
               <b-collapse is-nav id="nav_collapse">
                 <b-container style="margin:0">
                   <b-row class="">
-                    <b-col cols="3" sm="2" lg="1" class="classItem-box classItem-active">
+                    <b-col cols="3" sm="2"  lg="1" class="classItem-box classItem-active">
                       <span>服饰鞋包</span>
                     </b-col> 
                     <b-col cols="3" sm="2" lg="1" class="classItem-box">
@@ -116,7 +113,11 @@
 
 <script>
 import '../common/stylus/personal.css'
+import cropper from '../components/base/cropper'
 export default {
+  components: {
+    cropper
+  },
   data () {
     return {
       text:''
@@ -182,8 +183,18 @@ export default {
     font-size:0px; 
     opacity:0;
   }
-  /* 手机移动端 */
-@media (max-width: 576px) {
+  /* 小屏幕 */
+  @media (max-width: 1050px) {
+  .classItem-box{
+    font-size:13px; 
+  }
+}
+@media (max-width: 992px) {
+  .classItem-box{
+    margin-right: 10px;
+  }
+}
+@media (max-width: 768px) {
    .editPic{
     margin-bottom: 15px;
   }

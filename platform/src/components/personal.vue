@@ -39,10 +39,7 @@
           </div>
         </b-col>
         <b-col cols="4" class="" >
-          <div class="personalImg">
-            <b-img   class="" :src = "require('../common/images/store.png')" fluid />
-            <div class="addImg" ><p>点击跟换</p></div>
-          </div>
+          <cropper></cropper>
         </b-col> 
       </b-row>
       
@@ -52,7 +49,11 @@
 
 <script>
 import '../common/stylus/personal.css'
+import cropper from '../components/base/cropper'
 export default {
+  components: {
+    cropper
+  },
   data () {
     return {
       

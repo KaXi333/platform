@@ -9,18 +9,12 @@
             <i @click="searchBtn" class="iconfont icon-sousuo"></i>
             <b-form-input placeholder="商品" ></b-form-input>
           </b-col>
-          <!-- <b-col v-if="!isShowUser" cols="6" sm="2">
-            <b-dropdown id="ddown1" text="用户管理" class="m-md-2">
-              <b-dropdown-item>钱包</b-dropdown-item>
-              <b-dropdown-item>退出</b-dropdown-item>
-            </b-dropdown>
-          </b-col> -->
-          <b-col class="sigInUp text-right" v-if="!isShowUser" cols="5" sm="2">
+          <b-col class="sigInUp text-right" v-if="!ShowUserCont" cols="5" sm="2">
             <a >钱包</a>
             <a @click="topersonCenbtn">个人中心</a>
             <a style="color:#d33a31">退出</a>  
           </b-col>
-          <b-col class="sigInUp" v-if="isShowUser" cols="5" sm="2">
+          <b-col class="sigInUp" v-if="ShowUserCont" cols="5" sm="2">
             <a @click="toLogin">登录</a>
             <a @click="toRegister" style="color:#d33a31">注册</a>  
           </b-col>
@@ -34,13 +28,14 @@
 </template>
 
 <script>
+import store from '@/vuex/store'
 import {ShowDeviseFn} from '../common/util/util'
 export default {
   data () {
     return {
       screenWidth: document.documentElement.clientWidth,
       isShowSearch:false,
-      isShowUser:false
+      isShowUser:true
     }
   },
    mounted () {
@@ -59,6 +54,16 @@ export default {
     screenWidth (val) {
         this.screenWidth = val
         this.isShowSearch=ShowDeviseFn(this.screenWidth,this.isShowDevise)
+    }
+  },
+  computed:{
+    ShowUserCont(){
+      if(store.state.isLogin=='0'){
+        this.isShowUser=true
+      }else{
+        this.isShowUser=false
+      }
+      return this.isShowUser
     }
   },
   methods:{
