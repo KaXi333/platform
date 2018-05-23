@@ -9,12 +9,12 @@
             <i @click="searchBtn" class="iconfont icon-sousuo"></i>
             <b-form-input placeholder="商品" ></b-form-input>
           </b-col>
-          <b-col class="sigInUp text-right" v-if="!ShowUserCont" cols="5" sm="2">
+          <b-col class="sigInUp text-right" v-if="!isShowuserFn" cols="5" sm="2">
             <a >钱包</a>
             <a @click="topersonCenbtn">个人中心</a>
-            <a style="color:#d33a31">退出</a>  
+            <a style="color:#d33a31" @click="loginOutFn">退出</a>  
           </b-col>
-          <b-col class="sigInUp" v-if="ShowUserCont" cols="5" sm="2">
+          <b-col class="sigInUp" v-if="isShowuserFn" cols="5" sm="2">
             <a @click="toLogin">登录</a>
             <a @click="toRegister" style="color:#d33a31">注册</a>  
           </b-col>
@@ -57,11 +57,12 @@ export default {
     }
   },
   computed:{
-    ShowUserCont(){
-      if(store.state.isLogin=='0'){
-        this.isShowUser=true
-      }else{
+    //判断用户是否登录状态
+    isShowuserFn(){
+      if(store.state.token){
         this.isShowUser=false
+      }else{
+        this.isShowUser=true
       }
       return this.isShowUser
     }
@@ -77,10 +78,20 @@ export default {
       this.$router.push('/');
     },
     topersonCenbtn(){
-      this.$router.push('/personalSeller');
+      if(store.state.isMerchant==2){
+        this.$router.push('/personal');
+      }else if(store.state.isMerchant==1){
+        this.$router.push('/personalSeller');
+      }
     },
     searchBtn(){
       this.$router.push('/search');
+    },
+    //退出登录
+    loginOutFn(){
+      this.$store.commit('removetoken');//清楚token
+      this.$store.commit('removeMerchant');//清除isMerchant
+      this.$router.push('/sign_in');
     }
   }
 }

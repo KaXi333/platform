@@ -41,15 +41,22 @@
 <script>
 import vueCropper from 'vue-cropper'
 export default {
-   components: {
+  components: {
     vueCropper
   },
+  props:{
+    //接收店铺图片
+    shopImg:{
+        type:String,
+        default:''
+    },
+  },          
   data () {
     return {
       file:null,
       isShowZwt:true,
       isShowCropper:true,
-      imgs:require('../../common/images/upload.png'),
+      imgs:this.shopImg,
       example2: {
         img: this.imgs,
         info: true,

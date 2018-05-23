@@ -69,7 +69,7 @@
 
 <script>
 import identify from '../base/identify'
-
+import store from '@/vuex/store'
 export default {
   components:{
     identify
@@ -148,8 +148,8 @@ export default {
         if(res.data.code === 0){
           console.log(res)
           this.$router.push('/');
-          this.$store.commit('changeLogin','1');
-          localStorage.setItem("token",res.data.data.token);
+          this.$store.commit('changetoken',res.data.data.token);
+          this.$store.commit('changeMerchant',res.data.data.isMerchant);
         }else{
           alert('请输入正确的手机和密码')
         } 

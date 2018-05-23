@@ -152,79 +152,23 @@
         </b-col> 
       </b-row>
       <b-row>
-        <b-col cols="4" sm="3" class="storeName">
+        <b-col v-for="(merchantitem,index) in merchantList" :key="merchantitem.id" cols="4" sm="3" class="storeName">
           <div class="storeName-bc">
-            <b-img :src = "require('../common/images/store.png')" fluid />
+            <b-img :src = "merchantitem.thumb" fluid />
           </div>
-          <p>店铺名</p>
+          <p>{{merchantitem.name}}</p>
           <b-row class="shopEditBtn-box">
             <b-col cols="6" class="shopEditBtn text-left">
-              <span @click="toShopEdit">编辑</span>
+              <span @click="toShopEdit(index)">编辑</span>
             </b-col>
             <b-col cols="6" class="shopEditBtn text-left">
-              <span>删除</span>
-            </b-col>  
-          </b-row>
-        </b-col>
-        <b-col cols="4" sm="3" class="storeName">
-          <div class="storeName-bc">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </div>
-          <p>店铺名</p>
-          <b-row class="shopEditBtn-box">
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span @click="toShopEdit">编辑</span>
-            </b-col>
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span>删除</span>
-            </b-col>  
-          </b-row>
-        </b-col>
-        <b-col cols="4" sm="3" class="storeName">
-          <div class="storeName-bc">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </div>
-          <p>店铺名</p>
-          <b-row class="shopEditBtn-box">
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span @click="toShopEdit">编辑</span>
-            </b-col>
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span>删除</span>
-            </b-col>  
-          </b-row>
-        </b-col>
-        <b-col cols="4" sm="3" class="storeName">
-          <div class="storeName-bc">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </div>
-          <p>店铺名</p>
-          <b-row class="shopEditBtn-box">
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span @click="toShopEdit">编辑</span>
-            </b-col>
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span>删除</span>
-            </b-col>  
-          </b-row>
-        </b-col>
-        <b-col cols="4" sm="3" class="storeName">
-          <div class="storeName-bc">
-            <b-img :src = "require('../common/images/store.png')" fluid />
-          </div>
-          <p>店铺名</p>
-          <b-row class="shopEditBtn-box">
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span>编辑</span>
-            </b-col>
-            <b-col cols="6" class="shopEditBtn text-left">
-              <span>删除</span>
+              <span @click="delShop(index)">删除</span>
             </b-col>  
           </b-row>
         </b-col>
         <b-col cols="4" sm="3" class="storeName text-center">
           <div style="background:#f9f9f9;height:100%;">
-            <h4 class="addShopCss"><span>添加店铺</span></h4>
+            <h4 @click="addShopBtn" class="addShopCss"><span>添加店铺</span></h4>
           </div>
         </b-col>
       </b-row>
@@ -241,8 +185,13 @@ export default {
   },
   data () {
     return {
-      text:''
+      text:'',
+      merchantList:'',
+      cur_page:1
     }
+  },
+  created() {
+    this.getData();
   },
   methods: {
     changePhoneBtn(){
@@ -254,9 +203,55 @@ export default {
     changePasswordBtn(){
       this.$router.push('/changePassword');
     },
-    toShopEdit(){
-      this.$router.push('/shopEdit');
-    }
+    //添加店铺
+    addShopBtn(){
+      this.$router.push({
+        path:'shopEdit'
+      });
+    },
+    //编辑店铺
+    toShopEdit(index){
+      this.$router.push({
+        path:'shopEdit',
+        name:'shopEdit',
+        params:{
+          shopEditData:this.merchantList[index]
+        }
+      });
+    },
+    //删除店铺
+    delShop(index){
+      this.$axios({
+          method: 'post',
+          url: 'site/destroy',
+          data: {
+            id:this.merchantList[index].id
+          }
+      }).then(res=>{
+        console.log(res);
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    },
+    // 获取当前商户店铺数据
+    getData() {
+        this.$axios({
+            method: 'post',
+            url: 'site/list',
+            data: {
+              type:'merchant',
+              page: this.cur_page,
+              limit:'5'
+            }
+        }).then(res=>{
+          console.log(res);
+          this.merchantList = res.data.data;
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+    },
   }
 }
 </script>

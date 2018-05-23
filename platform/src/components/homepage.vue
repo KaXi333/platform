@@ -191,30 +191,13 @@
             </b-col> 
           </b-row>
           <b-row>
-            <b-col cols="4" sm="3" class="storeName" @click="toshopDetailBtn">
+            <b-col v-for="(siteitem,index) in siteList" :key="siteitem.name" cols="4" sm="3" class="storeName" @click="toshopDetailBtn">
               <div class="storeName-bc">
-                <b-img :src = "require('../common/images/store.png')" fluid />
+                <b-img :src = "siteitem.thumb" fluid />
               </div>
-              <p>店铺名</p>
+              <p>{{siteitem.name}}</p>
             </b-col>
-            <b-col cols="4" sm="3" class="storeName">
-              <div class="storeName-bc">
-                <b-img :src = "require('../common/images/store.png')" fluid />
-              </div>
-              <p>店铺名</p>
-            </b-col>
-            <b-col cols="4" sm="3" class="storeName">
-              <div class="storeName-bc">
-                <b-img :src = "require('../common/images/store.png')" fluid />
-              </div>
-              <p>店铺名</p>
-            </b-col>
-            <b-col cols="4" sm="3" class="storeName">
-              <div class="storeName-bc">
-                <b-img :src = "require('../common/images/store.png')" fluid />
-              </div>
-              <p>店铺名</p>
-            </b-col>
+         
           </b-row>
           <b-row align-h = "center">
             <b-col cols="3" sm="2" class="">
@@ -231,57 +214,47 @@
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
           </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
-            <div class="storeName-bc">
-              <b-img :src = "require('../common/images/store.png')" fluid />
-            </div>
-          </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
-            <div class="storeName-bc">
-              <b-img :src = "require('../common/images/store.png')" fluid />
-            </div>
-          </b-col>
-          <b-col cols="4" sm="2" class="showImg storeName">
+          <b-col cols="4"sm="2" class="showImg storeName">
             <div class="storeName-bc">
               <b-img :src = "require('../common/images/store.png')" fluid />
             </div>
@@ -297,8 +270,13 @@ export default {
   data () {
     return {
       slide: 0,
-      sliding: null
+      sliding: null,
+      cur_page:1,
+      siteList:''
     }
+  },
+  created() {
+      this.getData();
   },
   methods: {
     onSlideStart (slide) {
@@ -309,7 +287,25 @@ export default {
     },
     toshopDetailBtn(){
       this.$router.push('/shopDetail');
-    }
+    },
+    // 获取店铺数据
+    getData() {
+        this.$axios({
+            method: 'post',
+            url: 'site/list',
+            data: {
+              type:'all',
+              page: this.cur_page,
+              limit:'7'
+            }
+        }).then(res=>{
+          console.log(res);
+          this.siteList = res.data.data;
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+    },
   }
 }
 </script>

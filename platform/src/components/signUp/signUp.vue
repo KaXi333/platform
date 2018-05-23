@@ -81,7 +81,7 @@ export default {
                console.log(res)
                this.$router.push('/sign_in');
                // localStorage.setItem('ms_username',this.ruleForm.username);
-               // localStorage.setItem("token",res.data.data.token);
+               localStorage.setItem("token",res.data.data.token);
              })
              .catch(err=>{
                console.log(err)
