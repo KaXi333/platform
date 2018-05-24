@@ -49,13 +49,14 @@ export default {
     shopImg:{
         type:String,
         default:''
-    },
+    }
   },          
   data () {
     return {
       file:null,
-      isShowZwt:true,
+      isShowZwt:false,
       isShowCropper:true,
+      defaultshopImg:require('../../common/images/upload.png'),
       imgs:this.shopImg,
       example2: {
         img: this.imgs,
@@ -73,12 +74,16 @@ export default {
       }
     }
   },
-  // computed:{
-  //   isShowZwt(){
-  //     console.log(this.imgs)
-  //   }
-  // },
+  created() {
+    this.isShowZwtFn()
+  },
   methods:{
+    isShowZwtFn(){
+      console.log(this.shopImg,8)
+      if(this.imgs==this.defaultshopImg){
+        this.isShowZwt=true
+      }
+    },
     add_img(event){
       var img1=event.target.files[0];
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(event.target.value)) {
@@ -98,7 +103,25 @@ export default {
         this.imgs = data
         this.isShowCropper=!this.isShowCropper
         this.isShowZwt=false
+        this.$axios({
+          method: 'post',
+          url: 'member/uploadBase64',
+          data: {
+            upload:this.imgs
+          }
+        }).then(res=>{
+          console.log(res);
+          this.$emit('shopUponImg',res.data.data.key)
+        })
+        .catch(err=>{
+          console.log(err)
+        })
       }) 
+    }
+  },
+  watch: {
+    imgs: function(val){
+      console.log(753);
     }
   }
 }

@@ -5,7 +5,7 @@
         <b-col cols="12" class="text-center personalcenter-box editPic">
           <b-row align-h = "center" class="phonePersonal-text">
             <b-col cols="6" sm="4">
-              <cropper :shopImg='shopImg'></cropper>
+              <cropper @shopUponImg="shopImgBackFn" :shopImg='shopImg'></cropper>
             </b-col>
           </b-row>
         </b-col>
@@ -135,8 +135,10 @@ export default {
           {isactive:false},
           {isactive:false}
       ],
+      routerParams:'',
       chooseClassData:[],
       shopImg:require('../common/images/upload.png'),
+      shopImgKey:'',
       shopEditData:{
         name: '' ,
         link: '',
@@ -149,42 +151,72 @@ export default {
     this.getShopClass();
   },
   methods: {
+    //选择店铺类型
     chooseShopClasBtn(index,chooseCont){
       this.isactiveData[index].isactive=!this.isactiveData[index].isactive
       if(this.isactiveData[index].isactive){
         this.chooseClassData.push(chooseCont)
         console.log(this.chooseClassData)
       }else{
-        this.chooseClassData.splice(index,1)
+        for (let i = 0; i <this.chooseClassData.length; i++) {
+            if(this.chooseClassData[i]==chooseCont){
+              this.chooseClassData.splice(i,1)
+            }
+        }
         console.log(index,this.chooseClassData)
       }
     },
+    //从子组件获取店铺图片的imgUrl Key值
+    shopImgBackFn(key){
+      this.shopImgKey=key
+      console.log(this.shopImgKey)
+    },
     //保存店铺
     saveShopEditBtn(){
-      this.$axios({
+      if(this.routerParams){
+        this.$axios({
+          method: 'post',
+          url: 'site/update',
+          data: {
+            id:this.shopEditData.id,
+            name:this.shopEditData.name,
+            thumb: this.shopImgKey,
+            link:this.shopEditData.link,
+            category:this.chooseClassData
+          }
+        }).then(res=>{
+          console.log(res);
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+      }else{
+        this.$axios({
           method: 'post',
           url: 'site/create',
           data: {
             name:this.shopEditData.name,
-            thumb: this.shopImg,
+            thumb: this.shopImgKey,
             link:this.shopEditData.link,
             category:this.chooseClassData
           }
-      }).then(res=>{
-        console.log(res);
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+        }).then(res=>{
+          console.log(res);
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+      }
     },
     getParams () {
       // 取到路由带过来的参数 
-      let routerParams = this.$route.params.shopEditData
+      this.routerParams = this.$route.params.shopEditData
       // 将数据放在当前组件的数据内
-      if(routerParams){
-        this.shopEditData = routerParams
+      if(this.routerParams){
+        this.shopEditData = this.routerParams
         this.chooseClassData=this.shopEditData.categoryIds
-        console.log(this.chooseClassData,111)
+        this.shopImg=this.shopEditData.thumb
+        console.log(this.shopEditData,this.shopImg,888)
       }
     },
     //获取店铺类型数据
@@ -195,6 +227,13 @@ export default {
         }).then(res=>{
           console.log(res);
           this.shopClassData = res.data.data;
+          for (let i = 0; i <this.chooseClassData.length; i++) {
+            for (let k = 0; k <this.shopClassData.length; k++) {
+                if(this.chooseClassData[i]==this.shopClassData[k].id){
+                  this.isactiveData[k].isactive=true
+                }
+            }
+          }
         })
         .catch(err=>{
           console.log(err)

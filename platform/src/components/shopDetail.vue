@@ -13,7 +13,7 @@
       <b-row>
         <b-col cols="12" class="recommend text-left">
           <p></p>
-          <span>热门店铺</span>
+          <span>店铺</span>
         </b-col> 
       </b-row>
       <b-row>
@@ -43,10 +43,35 @@
 export default {
   data () {
     return {
-      
+      shopDetailId:'',
+      shopDetailData:''
     }
   },
+  created() {
+      this.getParams();
+      this.getShopDetailData();
+  },
   methods: {
+    // 路由传参数
+    getParams () {
+      // 取到路由带过来的参数 
+      this.shopDetailId = this.$route.params.shopDetailIdData
+    },
+    getShopDetailData(){
+      this.$axios({
+          method: 'post',
+          url: 'site/info',
+          data: {
+            id:this.shopDetailId,
+          }
+      }).then(res=>{
+        console.log(res);
+        this.shopDetailData=res.data.data;
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
   }
 }
 </script>

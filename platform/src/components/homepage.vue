@@ -116,22 +116,6 @@
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
           <span class="classBtn">分类:</span>
           <b-collapse is-nav id="nav_collapse">
-            <!-- <b-navbar-nav>
-              <b-nav-item href="#">不限类型</b-nav-item>
-              <b-nav-item href="#">服饰鞋包</b-nav-item>
-              <b-nav-item href="#">家具用品</b-nav-item>
-              <b-nav-item href="#">家装家饰</b-nav-item>
-              <b-nav-item href="#">美容护理</b-nav-item>
-              <b-nav-item href="#">母婴用品</b-nav-item>
-              <b-nav-item href="#">3C数码</b-nav-item>
-              <b-nav-item href="#">运动/户外</b-nav-item>
-              <b-nav-item href="#">食品/保健</b-nav-item>
-              <b-nav-item href="#">玩乐/收藏</b-nav-item>
-              <b-nav-item href="#">游戏/话费</b-nav-item>
-              <b-nav-item href="#">汽车配件</b-nav-item>
-              <b-nav-item href="#">书籍音像</b-nav-item>
-              <b-nav-item href="#">珠宝/首饰</b-nav-item>
-            </b-navbar-nav> -->
             <b-container>
               <b-row>
                 <b-col cols="3" sm="2" lg="1" class="classItem-box classItem-active">
@@ -191,7 +175,7 @@
             </b-col> 
           </b-row>
           <b-row>
-            <b-col v-for="(siteitem,index) in siteList" :key="siteitem.name" cols="4" sm="3" class="storeName" @click="toshopDetailBtn">
+            <b-col v-for="(siteitem,index) in siteList" :key="siteitem.id" cols="4" sm="3" class="storeName" @click="toshopDetailBtn(index)">
               <div class="storeName-bc">
                 <b-img :src = "siteitem.thumb" fluid />
               </div>
@@ -285,8 +269,15 @@ export default {
     onSlideEnd (slide) {
       this.sliding = false
     },
-    toshopDetailBtn(){
-      this.$router.push('/shopDetail');
+    // 进入店铺详情页面
+    toshopDetailBtn(index){
+      this.$router.push({
+        path:'shopDetail',
+        name:'shopDetail',
+        params:{
+          shopDetailIdData:this.siteList[index].id
+        }
+      });
     },
     // 获取店铺数据
     getData() {

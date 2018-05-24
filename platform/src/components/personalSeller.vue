@@ -8,7 +8,7 @@
             <h4>手机</h4>
             <b-row class="phonePersonal-text">
               <b-col cols="9" sm="6">
-                <b-form-input class="input-item peraonal-input" disabled></b-form-input>
+                <b-form-input v-model="shopSellerData.mobile" class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
                 <p @click="changePhoneBtn" class="changecont">修改</p>
@@ -19,7 +19,7 @@
             <h4>邮箱</h4>
             <b-row class="phonePersonal-text">
               <b-col cols="9" sm="6">
-                <b-form-input class="input-item peraonal-input" disabled></b-form-input>
+                <b-form-input v-model="shopSellerData.email" class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
                 <p @click="changeEmailBtn" class="changecont">修改</p>
@@ -30,7 +30,7 @@
             <h4>密码</h4>
             <b-row class="phonePersonal-text">
               <b-col cols="9" sm="6">
-                <b-form-input class="input-item peraonal-input" disabled></b-form-input>
+                <b-form-input v-model="shopSellerData.name" type="password" class="input-item peraonal-input" disabled></b-form-input>
               </b-col>
               <b-col cols="3" sm="2">
                 <p @click="changePasswordBtn" class="changecont">修改</p>
@@ -39,7 +39,7 @@
           </div>
         </b-col>
         <b-col cols="5" sm="4" lg="3" >
-          <cropper></cropper>
+          <cropper @shopUponImg="headImgBackFn" :shopImg='shopImg'></cropper>
         </b-col>
       </b-row>
       <b-row align-h = "center" class="businessImform-box">
@@ -49,14 +49,14 @@
               <h3>商户信息</h3>
             </b-col>
             <b-col cols="3" sm="2" class="text-right">
-              <p class="personal-saveBtn">保存</p>
+              <p @click="saveSellerInfo" class="personal-saveBtn">保存</p>
             </b-col>
           </b-row>
           <div class="personalimform">
             <h4>商户名</h4>
             <b-row class="phonePersonal-text">
               <b-col cols="12">
-                <b-form-input class="input-item peraonal-input" placeholder="请输入商户名称"></b-form-input>
+                <b-form-input v-model="shopSellerData.name" class="input-item peraonal-input" placeholder="请输入商户名称"></b-form-input>
               </b-col>
             </b-row>
           </div>
@@ -65,7 +65,7 @@
             <b-row class="phonePersonal-text">
               <b-col cols="12">
                 <b-form-textarea class="textarea-box"
-                   v-model="text"
+                   v-model="shopSellerData.description"
                    placeholder="请输入商户简介"
                    :rows="5"
                    :max-rows="5">
@@ -91,7 +91,7 @@
               </b-row>
             </b-col>
             <b-col cols="2" sm="2" class="text-right">
-              <p class="personal-saveBtn">保存</p>
+              <p @click="saveAccountBtn" class="personal-saveBtn">保存</p>
             </b-col>
           </b-row>
           <div class="personalimform">
@@ -102,7 +102,7 @@
                     <h4>微信二维码</h4>
                   </b-col>
                   <b-col cols="12">
-                    <cropper></cropper>
+                    <cropper @shopUponImg="WeChatImgBackFn" :shopImg='ewmImg'></cropper>
                   </b-col>
                 </b-row>
               </b-col>
@@ -112,7 +112,7 @@
                     <h4>支付宝二维码</h4>
                   </b-col>
                    <b-col cols="12">
-                    <cropper></cropper>
+                    <cropper @shopUponImg="AlipayImgBackFn" :shopImg='zfbImg'></cropper>
                   </b-col>  
                 </b-row>
               </b-col>
@@ -126,7 +126,7 @@
                     <h4>支付宝账号</h4>
                   </b-col>
                   <b-col cols="12">
-                    <b-form-input class="input-item peraonal-input" placeholder="请输入商户名称"></b-form-input>
+                    <b-form-input v-model="shopSellerData.alipayAccount" class="input-item peraonal-input" placeholder="请输入账户"></b-form-input>
                   </b-col>
                 </b-row>
               </b-col>
@@ -136,7 +136,7 @@
                     <h4>银联卡账号</h4>
                   </b-col>
                   <b-col cols="12">
-                    <b-form-input class="input-item peraonal-input" placeholder="请输入商户名称"></b-form-input>
+                    <b-form-input v-model="shopSellerData.unionpayAccount" class="input-item peraonal-input" placeholder="请输入账户"></b-form-input>
                   </b-col>
                 </b-row>
               </b-col>
@@ -185,12 +185,19 @@ export default {
   },
   data () {
     return {
-      text:'',
       merchantList:'',
+      shopSellerData:'',
+      shopImg:require('../common/images/upload.png'),
+      zfbImg:require('../common/images/upload.png'),
+      ewmImg:require('../common/images/upload.png'),
+      shopImgKey:'',//头像Key值
+      ewmImgKey:'',
+      zfbImgKey:'',
       cur_page:1
     }
   },
   created() {
+    this.getSellerData();
     this.getData();
   },
   methods: {
@@ -202,6 +209,56 @@ export default {
     },
     changePasswordBtn(){
       this.$router.push('/changePassword');
+    },
+    //从子组件获取头像的imgUrl Key值
+    headImgBackFn(key){
+      this.shopImgKey=key
+      console.log(this.shopImgKey)
+    },
+    //从子组件获取微信二维码的 Key值
+    WeChatImgBackFn(key){
+      this.ewmImgKey=key
+      console.log(this.ewmImgKey)
+    },
+    //从子组件获取微信二维码的 Key值
+    AlipayImgBackFn(key){
+      this.zfbImgKey=key
+      console.log(this.zfbImgKey)
+    },
+    //设置收款信息,商户账户,支付二维码
+    saveAccountBtn(){
+      this.$axios({
+          method: 'post',
+          url: 'member/setReceivable',
+          data: {
+            alipayThumb:this.zfbImgKey,
+            wechatThumb:this.ewmImgKey,
+            alipayAccount:this.shopSellerData.alipayAccount,
+            unionpayAccount:this.shopSellerData.unionpayAccount
+          }
+      }).then(res=>{
+        console.log(res);
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    },
+    //修改商户基本信息
+    saveSellerInfo(){
+      this.$axios({
+          method: 'post',
+          url: 'member/updateBaseInfo',
+          data: {
+            name:this.shopSellerData.name,
+            description:this.shopSellerData.description,
+            picture:this.shopImgKey
+          }
+      }).then(res=>{
+        console.log(res);
+      })
+      .catch(err=>{
+        console.log(err)
+      })
     },
     //添加店铺
     addShopBtn(){
@@ -229,6 +286,7 @@ export default {
           }
       }).then(res=>{
         console.log(res);
+        this.getData();
       })
       .catch(err=>{
         console.log(err)
@@ -242,7 +300,7 @@ export default {
             data: {
               type:'merchant',
               page: this.cur_page,
-              limit:'5'
+              limit:'7'
             }
         }).then(res=>{
           console.log(res);
@@ -252,6 +310,30 @@ export default {
           console.log(err)
         })
     },
+    // 获取当前商户信息数据
+    getSellerData() {
+        this.$axios({
+            method: 'post',
+            url: 'member/info'
+        }).then(res=>{
+          console.log(123,res);
+          this.shopSellerData=res.data.data
+          if(this.shopSellerData.picture){console.log(999,res);
+            this.shopImg=this.shopSellerData.picture
+            console.log(this.shopImg) 
+          }
+          if(this.shopSellerData.alipayThumb){
+            this.zfbImg=this.shopSellerData.alipayThumb
+            console.log(this.zfbImg)
+          }
+          if(this.shopSellerData.wechatThumb){
+            this.ewmImg=this.shopSellerData.wechatThumb
+          }
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+    }
   }
 }
 </script>
